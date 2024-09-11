@@ -33,6 +33,17 @@ async function dbFindUser(id){
     }
 }
 
+//Find by email
+async function dbFindUser(userEmail){
+    try{
+        const user = await User.findOne({email:userEmail});
+        return user;
+    }catch (err){
+        console.error('DB-FIND USER BY EMAIL ERROR : ',err);
+        throw new Error ('ERROR : can not find that user');
+    }
+}
+
 //Find by login
 async function dbFindUserLogIn(userEmail,password){
     try{
