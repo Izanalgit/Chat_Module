@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({
   remit: {
-    type: mongoose.ObjectId,
+    type: mongoose.Schema.ObjectId,
     required: true,
   },
   recep: {
-    type: mongoose.ObjectId,
+    type: mongoose.Schema.ObjectId,
     required: true,
   },
   messageText: {
