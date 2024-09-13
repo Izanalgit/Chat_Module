@@ -4,7 +4,7 @@ const {saveToken,findToken} = require('../../services/tokenServices');
 
 // Error messages -> errMsgs to OBJ on config REFACT!
 const payNullMsg = 'Payload is required';
-const payErrMsg = 'Incorrect login payload , required : {name,pswd}';
+const payErrMsg = 'Incorrect login payload';
 const sesErrMsg = 'Already loged';
 const bdErrMsg = 'Incorrect user credentials';
 const apiErrMsg = 'Server token error';
