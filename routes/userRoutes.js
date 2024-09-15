@@ -8,15 +8,15 @@ const logOutUser = require('../controllers/users/logOutUser');
 
 const router = express.Router();
 
-router.post('/new', require(createUser));
+router.post('/new', createUser);
 
-router.patch('/update', require(updateUser));
+router.patch('/update', updateUser);
 
-router.delete('/delete', require(deleteUser));
+router.delete('/delete', deleteUser);
 
-router.post('/login', require(logInUser));
+router.post('/login', logInUser);
 
-router.post('/logout', require(logOutUser));
+router.post('/logout', logOutUser);
 
 
 module.exports = router;
