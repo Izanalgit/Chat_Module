@@ -4,7 +4,7 @@ const {cleanToken} = require('../../services/tokenServices');
 //NEEDS TO REVIEW AND IMPROVE !!!
 
 module.exports = async (req,res) => {
-    const {email,pswd} = req.body;
+    const {email,pswd} = req.body.payload;
     const userId = req.user;
     let user;
     let userDel;
@@ -29,7 +29,7 @@ module.exports = async (req,res) => {
         console.log(`ID ${userId} attepts to erase ${user._id}`);
         return res
             .status(401)
-            .json({message:'Invalid user.'})
+            .json({messageErr:'Invalid user.'})
     }
     
     //Delete user
@@ -38,15 +38,15 @@ module.exports = async (req,res) => {
     }catch(err){
         return res
             .status(401)
-            .json({message:err});
+            .json({messageErr:err});
     }
 
     //Log
-    console.log(userDel.name,'deleted'); //IMPROVE!
+    console.log(userDel.name,' deleted'); //IMPROVE!
     
     //Destroy session
     try{
-        const tokenDel = await cleanToken(userId)
+        const tokenDel = await cleanToken(userId) //for loggin?
     }catch(err){
         return res
             .status(401)
