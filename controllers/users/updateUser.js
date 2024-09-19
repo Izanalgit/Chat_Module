@@ -8,7 +8,7 @@ const bdErrMsg = 'Data base do not accept that ID';
 
 module.exports = async (req,res) => {
     
-    const userId = req.user;  //headers Auth from middleware
+    const userId = req.user;
     const payload = req.body.payload;
 
     //No payload

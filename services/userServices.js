@@ -23,7 +23,7 @@ async function dbFindUsers(){
 }
 
 //Find by id
-async function dbFindUser(id){
+async function dbFindUserId(id){
     try{
         const user = await User.findById(id);
         return user;
@@ -80,6 +80,7 @@ async function dbDeleteUser(id){
 module.exports = {
     dbCreateUser,
     dbFindUsers,
+    dbFindUserId,
     dbFindUser,
     dbFindUserLogIn,
     dbUpdateUser,

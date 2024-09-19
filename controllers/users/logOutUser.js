@@ -1,5 +1,5 @@
 const {cleanToken,findToken} = require('../../services/tokenServices');
-const {dbFindUser} = require('../../services/userServices');
+const {dbFindUserId} = require('../../services/userServices');
 
 // Error messages -> errMsgs to OBJ on config REFACT!
 const payNullMsg = 'Payload is required';
@@ -9,16 +9,16 @@ const bdErrMsg = 'Incorrect user credentials';
 
 module.exports = async (req,res) => {
 
-    const userId = req.user;  //headers Auth from middleware
+    const userId = req.user;
 
-    //No payload
     if(!userId)
         return res
             .status(400)
             .json({messageErr:payNullMsg});
 
     //User check
-    const user = await dbFindUser(userId);
+    const user = await dbFindUserId(userId);
+    
     if(!user)
         return res
             .status(401)

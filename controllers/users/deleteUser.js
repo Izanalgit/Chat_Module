@@ -1,24 +1,12 @@
-const {dbFindUserLogIn} = require('../../services/userServices');
+const {dbFindUserLogIn , dbDeleteUser} = require('../../services/userServices');
 const {cleanToken} = require('../../services/tokenServices');
-
-//NEEDS TO REVIEW AND IMPROVE !!!
 
 module.exports = async (req,res) => {
     const {email,pswd} = req.body.payload;
     const userId = req.user;
-    let user;
-    let userDel;
-
-    //Search user
-    try{
-        user = await dbFindUserLogIn(email,pswd);
-    }catch(err){
-        return res
-            .status(401)
-            .json({messageErr:err});
-    }
 
     //Check user
+    const user = await dbFindUserLogIn(email,pswd);
     if(!user) return res
         .status(401)
         .json({messageErr:'Invalid credentials.'})
@@ -33,24 +21,23 @@ module.exports = async (req,res) => {
     }
     
     //Delete user
-    try{
-        userDel = await dbDeleteUser(userId)
-    }catch(err){
+    const userDel = await dbDeleteUser(userId);
+    if(!userDel)
         return res
             .status(401)
-            .json({messageErr:err});
-    }
+            .json({messageErr:"del"});
+
 
     //Log
     console.log(userDel.name,' deleted'); //IMPROVE!
     
     //Destroy session
     try{
-        const tokenDel = await cleanToken(userId) //for loggin?
+        await cleanToken(userId)
     }catch(err){
         return res
             .status(401)
-            .json({message:err});
+            .json({messageErr:err});
     }
 
     res.status(200)

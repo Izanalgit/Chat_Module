@@ -1,5 +1,5 @@
 const jwt = require ('jsonwebtoken');
-const {dbFindUser} = require('./../services/userServices');
+const {dbFindUserId} = require('./../services/userServices');
 const {findToken} = require('./../services/tokenServices');
 
 require('dotenv').config;
@@ -13,7 +13,7 @@ const hashSc = process.env.JWT_SECRECT;
 //Request Token
 async function verifyToken(req,res,next){
 
-    const token = req.heathers['Authorization'];
+    const token = req.get('Authorization');
 
     if(!token)return res.status(401).json({messageErr:'Token missing'});
 
@@ -24,7 +24,7 @@ async function verifyToken(req,res,next){
                 .json({messageErr:'Invalid Token', error: err.message});
         }
 
-        const sesToken = await findToken(decoded.user); //Improve trhow error?
+        const sesToken = await findToken(decoded.user);
 
         if(!sesToken)return res.status(402).json({messageErr:'Not logued'});
         if(token != sesToken.token)return res.status(401).json({messageErr:'Invalid session'});
@@ -38,7 +38,7 @@ async function verifyToken(req,res,next){
 //Verify user ID
 async function verifyUser(req,res,next){
     const userId = req.user;
-    const user = await dbFindUser(userId);
+    const user = await dbFindUserId(userId);
 
     if(!user) 
         return res

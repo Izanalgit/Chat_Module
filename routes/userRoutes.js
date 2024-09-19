@@ -1,5 +1,7 @@
 const express = require('express');
 
+const { verifyToken } = require('../middleware/authToken');
+
 const createUser = require('../controllers/users/createUser');
 const updateUser = require('../controllers/users/updateUser');
 const deleteUser = require('../controllers/users/deleteUser');
@@ -10,13 +12,13 @@ const router = express.Router();
 
 router.post('/new', createUser);
 
-router.patch('/update', updateUser);
+router.patch('/update', verifyToken, updateUser);
 
-router.delete('/delete', deleteUser);
+router.delete('/delete', verifyToken, deleteUser);
 
 router.post('/login', logInUser);
 
-router.post('/logout', logOutUser);
+router.post('/logout', verifyToken, logOutUser);
 
 
 module.exports = router;

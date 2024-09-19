@@ -54,7 +54,7 @@ module.exports = async (req,res) => {
 
     res
         .status(200)
-        .headers('Authorization',token)
+        .set('Authorization',token)
         .json({
             user:user.name,
             message:'Succes on login!'

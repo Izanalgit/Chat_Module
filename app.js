@@ -12,6 +12,10 @@ const HOST = process.env.HOST || 'localhost';
 // DB Connection
 dbConnect();
 
+//JSON PARSER
+app.use(express.urlencoded({extended:true}));
+app.use(express.json());
+
 //LOGER
 app.use(morgan('dev'));
 
