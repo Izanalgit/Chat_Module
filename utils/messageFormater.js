@@ -1,0 +1,39 @@
+const { dbFindUserId } = require('../services/userServices');
+
+const dateFormat = (date) => {
+    if(!date || date[10] !== "T")
+        throw new Error('Invalid date format');
+
+    const day = date.substr(0,10);
+    const hour = date.substr(11,8);
+
+    return {day , hour};
+}
+
+const msgFormat = async (userId, contactId, messagesRaw) => {
+
+    const {name : contactName} = await dbFindUserId(contactId);
+
+    const messagesClean = messagesRaw.map(message => {
+        
+        const date = dateFormat(message.createdAt);
+
+        if (message.remit == userId)
+            return {
+                'me':message.messageText,
+                'day':date.day,
+                'hour':date.hour
+            }
+        else 
+            return {
+                [contactName]:message.messageText,
+                'day':date.day,
+                'hour':date.hour
+            }
+    })
+
+    return messagesClean;
+    
+}
+
+module.exports = {msgFormat};
