@@ -1,5 +1,6 @@
 const {readMessages} = require('../../services/messagesServices');
 const {dbFindUser} = require('../../services/userServices');
+const {msgFormat} = require('../../utils/messageFormater');
 
 // Error messages
 const payNullMsg = 'Payload is required';
@@ -37,17 +38,17 @@ module.exports = async (req,res) => {
     const contactId = userContact._id;
 
     //Read messages
-    const messages = await readMessages(userId,contactId);
+    try {
+        const messagesRaw = await readMessages(userId, contactId);
+        const messages = await msgFormat(userId, contactId, messagesRaw);
     
-    if (messages)
-        //Messages
         return res
             .status(200)
-            .json({messages}); //RAW CONTECT ,NEEDS WORK ON SERVICES !!
-    else 
-        //Null result on DB
-        return res
-            .status(500)
-            .json({messageErr:bdErrMsg});
+            .json({ messages });
+    
+    } catch (err) {
+        console.error('Error at read or format messages : ', err);
+        return res.status(500).json({ messageErr: 'Error reading messages' });
+    }
     
 };

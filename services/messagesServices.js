@@ -30,7 +30,7 @@ async function readMessages(userID0,userID1) {
                 {remit:userID0,recep:userID1},
                 {remit:userID1,recep:userID0}
             ]
-        },).sort({createdAt: -1})
+        }, 'remit recep messageText createdAt').sort({createdAt: -1})
         return messages;
 
     }catch (err){
