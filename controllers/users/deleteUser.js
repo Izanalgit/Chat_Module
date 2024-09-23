@@ -1,5 +1,6 @@
 const {dbFindUserLogIn , dbDeleteUser} = require('../../services/userServices');
 const {cleanToken} = require('../../services/tokenServices');
+const {msgErr} = require('../../utils/errorsMessages');
 
 module.exports = async (req,res) => {
     const {email,pswd} = req.body.payload;
@@ -9,7 +10,7 @@ module.exports = async (req,res) => {
     const user = await dbFindUserLogIn(email,pswd);
     if(!user) return res
         .status(401)
-        .json({messageErr:'Invalid credentials.'})
+        .json({messageErr:msgErr.errCredentialsIncorrect})
 
 
     //Check if is same user
@@ -17,7 +18,7 @@ module.exports = async (req,res) => {
         console.log(`ID ${userId} attepts to erase ${user._id}`);
         return res
             .status(401)
-            .json({messageErr:'Invalid user.'})
+            .json({messageErr:msgErr.errUserNotFound()})
     }
     
     //Delete user
@@ -25,7 +26,7 @@ module.exports = async (req,res) => {
     if(!userDel)
         return res
             .status(401)
-            .json({messageErr:"del"});
+            .json({messageErr:msgErr.errGeneral('user not deleted')});
 
 
     //Log

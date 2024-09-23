@@ -1,25 +1,22 @@
 const {dbCreateUser} = require('../../services/userServices');
-
-// Error messages -> errMsgs to OBJ on config REFACT!
-const payNullMsg = 'Payload is required';
-const payErrMsg = 'Incorrect login payload';
+const {msgErr} = require('../../utils/errorsMessages');
 
 module.exports =async (req,res)=>{
     let newUser;
     const payload = req.body.payload;
 
     //Logued check
-    const sessionToken = req.user; //Middleware !!
+    const sessionToken = req.user; 
     if(sessionToken)
         return res
             .status(409)
-            .json({messageErr:'Already loged.'})
+            .json({messageErr:msgErr.errSession(true)})
 
     //No payload check
     if(!payload)
         return res
             .status(400)
-            .json({messageErr:payNullMsg});
+            .json({messageErr:msgErr.errPayloadRequired});
 
     const {name,email,pswd} = payload;
 
@@ -27,7 +24,7 @@ module.exports =async (req,res)=>{
     if(!name || !email || !pswd)
         return res
             .status(400)
-            .json({messageErr:payErrMsg});
+            .json({messageErr:msgErr.errPayloadIncorrect});
     
     //Create new user
     try{
@@ -42,7 +39,7 @@ module.exports =async (req,res)=>{
     if(!newUser) 
         return res
             .status(500)
-            .json({messageErr: 'Something is wrong here.'});
+            .json({messageErr:msgErr.errApiInternal});
 
     //Log and response
     res

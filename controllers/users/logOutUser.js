@@ -1,11 +1,6 @@
 const {cleanToken,findToken} = require('../../services/tokenServices');
 const {dbFindUserId} = require('../../services/userServices');
-
-// Error messages -> errMsgs to OBJ on config REFACT!
-const payNullMsg = 'Payload is required';
-const sesErrMsg = 'Not loged yet';
-const apiErrMsg = 'Server token error';
-const bdErrMsg = 'Incorrect user credentials';
+const {msgErr} = require('../../utils/errorsMessages');
 
 module.exports = async (req,res) => {
 
@@ -14,7 +9,7 @@ module.exports = async (req,res) => {
     if(!userId)
         return res
             .status(400)
-            .json({messageErr:payNullMsg});
+            .json({messageErr:msgErr.errPayloadRequired});
 
     //User check
     const user = await dbFindUserId(userId);
@@ -22,21 +17,21 @@ module.exports = async (req,res) => {
     if(!user)
         return res
             .status(401)
-            .json({messageErr:bdErrMsg});
+            .json({messageErr:msgErr.errCredentialsIncorrect});
 
     //Check if there is a token from the user
     const tokenSaved = await findToken (userId);
     if(!tokenSaved) 
         return res
             .status(409)
-            .json({messageErr:sesErrMsg});
+            .json({messageErr:msgErr.errSession(false)});
 
     //Delete session token
     const tokenClean = await cleanToken (userId);
     if(!tokenClean) 
         return res
             .status(500)
-            .json({messageErr:apiErrMsg});
+            .json({messageErr:msgErr.errToken});
 
     console.log('SESSION UPDATED - LOGOUT : ', userId);
 

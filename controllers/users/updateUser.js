@@ -1,10 +1,5 @@
 const {dbUpdateUser} = require('../../services/userServices');
-
-// Error messages
-const payNullMsg = 'Payload is required';
-const payErrMsg = 'Incorrect user payload';
-const bdErrMsg = 'Data base do not accept that ID';
-
+const {msgErr} = require('../../utils/errorsMessages');
 
 module.exports = async (req,res) => {
     
@@ -15,7 +10,7 @@ module.exports = async (req,res) => {
     if(!payload)
         return res
             .status(400)
-            .json({messageErr:payNullMsg});
+            .json({messageErr:msgErr.errPayloadRequired});
 
     const {name,email,pswd} = payload;
 
@@ -23,7 +18,7 @@ module.exports = async (req,res) => {
     if(!name && !email && !pswd)
         return res
             .status(400)
-            .json({messageErr:payErrMsg});
+            .json({messageErr:msgErr.errPayloadIncorrect});
 
     const user = {...payload};
 
@@ -39,6 +34,6 @@ module.exports = async (req,res) => {
         //Null result on DB
         return res
             .status(400)
-            .json({messageErr:bdErrMsg});
+            .json({messageErr:msgErr.errDbInvalidInput});
     
 };

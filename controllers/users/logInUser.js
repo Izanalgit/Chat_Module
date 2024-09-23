@@ -1,6 +1,7 @@
-const {genToken} = require('../../utils/jwtAuth');
 const {dbFindUserLogIn} = require('../../services/userServices');
 const {saveToken,findToken} = require('../../services/tokenServices');
+const {genToken} = require('../../utils/jwtAuth');
+const {msgErr} = require('../../utils/errorsMessages');
 
 // Error messages -> errMsgs to OBJ on config REFACT!
 const payNullMsg = 'Payload is required';
@@ -17,7 +18,7 @@ module.exports = async (req,res) => {
     if(!payload)
         return res
             .status(400)
-            .json({messageErr:payNullMsg});
+            .json({messageErr:msgErr.errPayloadRequired});
 
     const {email,pswd} = payload;
 
@@ -25,7 +26,7 @@ module.exports = async (req,res) => {
     if(!email || !pswd)
         return res
             .status(400)
-            .json({messageErr:payErrMsg});
+            .json({messageErr:msgErr.errPayloadIncorrect});
 
         
     //User check
@@ -33,7 +34,7 @@ module.exports = async (req,res) => {
     if(!user)
         return res
             .status(401)
-            .json({messageErr:bdErrMsg});
+            .json({messageErr:msgErr.errCredentialsIncorrect});
 
     
     //Check if there is a token allready from the user
@@ -41,14 +42,14 @@ module.exports = async (req,res) => {
     if(tokenSaved) 
         return res
             .status(409)
-            .json({messageErr:sesErrMsg});
+            .json({messageErr:msgErr.errSession(true)});
     
     //Generate token
     const token = genToken(user._id);
     const tokenDB = await saveToken(user._id,token);
     if(!tokenDB) return res
             .status(500)
-            .json({messageErr:apiErrMsg}); 
+            .json({messageErr:msgErr.errToken}); 
 
     console.log('SESSION UPDATED - LOGIN : ',user.name);
 

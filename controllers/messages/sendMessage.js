@@ -1,11 +1,6 @@
 const {sendMessage} = require('../../services/messagesServices');
 const {dbFindUser} = require('../../services/userServices');
-
-// Error messages
-const payNullMsg = 'Payload is required';
-const payErrMsg = 'Incorrect message payload';
-const bdErrMsg = 'Internal error.';
-
+const {msgErr} = require('../../utils/errorsMessages');
 
 module.exports = async (req,res) => {
     
@@ -16,7 +11,7 @@ module.exports = async (req,res) => {
     if(!payload)
         return res
             .status(400)
-            .json({messageErr:payNullMsg});
+            .json({messageErr:msgErr.errPayloadRequired});
 
     const {recep,message} = payload;
 
@@ -24,7 +19,7 @@ module.exports = async (req,res) => {
     if(!recep && !message)
         return res
             .status(400)
-            .json({messageErr:payErrMsg});
+            .json({messageErr:msgErr.errPayloadIncorrect});
 
     //Receiver user get ID
     const userRecept = await dbFindUser(recep);
@@ -32,7 +27,7 @@ module.exports = async (req,res) => {
     if(!userRecept) 
         return res
             .status(401)
-            .json({messageErr:'Receiver user not found'})
+            .json({messageErr:msgErr.errUserNotFound('Receiver')})
      
     const recepId = userRecept._id;
 
@@ -48,6 +43,6 @@ module.exports = async (req,res) => {
         //Null result on DB
         return res
             .status(500)
-            .json({messageErr:bdErrMsg});
+            .json({messageErr:msgErr.errApiInternal});
     
 };

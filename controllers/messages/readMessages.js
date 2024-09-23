@@ -1,12 +1,7 @@
 const {readMessages} = require('../../services/messagesServices');
 const {dbFindUser} = require('../../services/userServices');
 const {msgFormat} = require('../../utils/messageFormater');
-
-// Error messages
-const payNullMsg = 'Payload is required';
-const payErrMsg = 'Incorrect search payload';
-const bdErrMsg = 'Internal error';
-
+const {msgErr} = require('../../utils/errorsMessages');
 
 module.exports = async (req,res) => {
     
@@ -17,7 +12,7 @@ module.exports = async (req,res) => {
     if(!payload)
         return res
             .status(400)
-            .json({messageErr:payNullMsg});
+            .json({messageErr:msgErr.errPayloadRequired});
 
     const {contact} = payload;
 
@@ -25,7 +20,7 @@ module.exports = async (req,res) => {
     if(!contact)
         return res
             .status(400)
-            .json({messageErr:payErrMsg});
+            .json({messageErr:msgErr.errPayloadIncorrect});
 
     //Contact user get ID
     const userContact = await dbFindUser(contact);
@@ -33,7 +28,7 @@ module.exports = async (req,res) => {
     if(!userContact) 
         return res
             .status(401)
-            .json({messageErr:'Contact user not found'})
+            .json({messageErr:msgErr.errUserNotFound('Contact')})
      
     const contactId = userContact._id;
 
@@ -48,7 +43,7 @@ module.exports = async (req,res) => {
     
     } catch (err) {
         console.error('Error at read or format messages : ', err);
-        return res.status(500).json({ messageErr: 'Error reading messages' });
+        return res.status(500).json({ messageErr:msgErr.errGeneral('messages not found')});
     }
     
 };
