@@ -13,7 +13,10 @@ const messageSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  timestamps: true
+  createdAt: { 
+    type: Date, 
+    default: Date.now 
+}
 });
 
 const Message = mongoose.model('Message', messageSchema);

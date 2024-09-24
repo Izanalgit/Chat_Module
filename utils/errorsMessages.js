@@ -3,6 +3,7 @@ const er = 'ERROR :' //Error message prefix
 const msgErr = {
     errPayloadRequired: `${er}Payload is required`,
     errPayloadIncorrect: `${er}Incorrect payload`,
+    errParamsIncorrect: `${er}Incorrect parameters`,
     errCredentialsIncorrect: `${er}Incorrect user credentials`,
     errToken: `${er}Server token error`,
     errApiInternal: `${er}Internal error, send a ticket`,

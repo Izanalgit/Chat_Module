@@ -1,11 +1,14 @@
 const { dbFindUserId } = require('../services/userServices');
 
-const dateFormat = (date) => {
+const dateFormat = (dateRaw) => {
+
+    const date = new Date(dateRaw).toISOString();
+
     if(!date || date[10] !== "T")
         throw new Error('Invalid date format');
 
-    const day = date.substr(0,10);
-    const hour = date.substr(11,8);
+    const day = date.slice(0,10);
+    const hour = date.slice(11,19);
 
     return {day , hour};
 }

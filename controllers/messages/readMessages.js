@@ -6,21 +6,13 @@ const {msgErr} = require('../../utils/errorsMessages');
 module.exports = async (req,res) => {
     
     const userId = req.user;
-    const payload = req.body.payload;
+    const contact = req.params.contact;
 
-    //No payload
-    if(!payload)
-        return res
-            .status(400)
-            .json({messageErr:msgErr.errPayloadRequired});
-
-    const {contact} = payload;
-
-    //Incorrect payload
+    //Incorrect parameters
     if(!contact)
         return res
             .status(400)
-            .json({messageErr:msgErr.errPayloadIncorrect});
+            .json({messageErr:msgErr.errParamsIncorrect});
 
     //Contact user get ID
     const userContact = await dbFindUser(contact);
