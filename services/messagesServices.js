@@ -31,7 +31,14 @@ async function readMessages(userID0,userID1) {
                 {remit:userID1,recep:userID0}
             ]
         }).sort({createdAt: 1})
-        return messages;
+        
+        //Decrypt messages
+        const decryptedMessages = messages.map(msg => ({ 
+            ...msg.toObject(), //to plain object just in case
+            messageText : msg.decryptMessage()
+        }));
+        
+        return decryptedMessages;
 
     }catch (err){
         console.error('DB-READ MESSAGES ERROR : ',err);

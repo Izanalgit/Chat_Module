@@ -1,13 +1,15 @@
 const crypto = require('crypto');
 
-//Chyper Algorithm
+// require('dotenv').config;
+
 const algorithm = 'aes-256-cbc';
-const key = crypto.randomBytes(64); //save on env?
-const iv = crypto.randomBytes(16); //save on env?
+// const key = Buffer.from(process.env.SECRET_KEY, 'hex');
+const key = crypto.randomBytes(32);
 
 //Encrypter
 function encryptText(data){
-    
+    const iv = crypto.randomBytes(16);
+
     const cipher = crypto.createCipheriv(algorithm,key,iv);
     
     let encrypted = cipher.update(data,'utf8','hex');

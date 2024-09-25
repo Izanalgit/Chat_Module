@@ -15,8 +15,7 @@ const messageSchema = new mongoose.Schema({
     required: true
   },
   iv:{
-    type: String,
-    required: true
+    type: String
   },
   createdAt: { 
     type: Date, 
@@ -26,17 +25,18 @@ const messageSchema = new mongoose.Schema({
 
 //Encrypt/Decrypt messages
 
-messageSchema.pre('save', (next) => {
+messageSchema.pre('save', function(next) {
   const message = this;
 
   const {encryptedData, iv} = encryptText(message.messageText);
+
   message.messageText = encryptedData;
   message.iv = iv;
 
   next();
 })
 
-messageSchema.methods.decryptMessage = () => {
+messageSchema.methods.decryptMessage = function() {
   return decryptText(this.messageText, this.iv);
 }
 
