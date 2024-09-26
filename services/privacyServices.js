@@ -30,7 +30,7 @@ async function getBlockedUser(userId) {
 
         const user = await User.findById(userId)
             .select('blockedUsers')
-            .populate('blockedUsers', 'name');
+            .populate('blockedUsers', 'email');
 
         return user.blockedUsers;
 
