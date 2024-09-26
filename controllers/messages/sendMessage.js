@@ -32,17 +32,23 @@ module.exports = async (req,res) => {
     const recepId = userRecept._id;
 
     //Send Message
-    const messageSended = await sendMessage(userId,recepId,message);
-    
-    if (messageSended)
-        //Message sended 
+    try{
+        const messageSended = await sendMessage(userId,recepId,message);
+        
+        if (messageSended)
+            //Message sended 
+            return res
+                .status(200)
+                .json({message:"Message properly sended"});
+        else 
+            //Null result on DB
+            return res
+                .status(500)
+                .json({messageErr:msgErr.errApiInternal});
+    }catch(err){
         return res
-            .status(200)
-            .json({message:"Message properly sended"});
-    else 
-        //Null result on DB
-        return res
-            .status(500)
-            .json({messageErr:msgErr.errApiInternal});
+            .status(400)
+            .json({messageErr:msgErr.errUserNotFound('Receiver')});
+    }
     
 };
