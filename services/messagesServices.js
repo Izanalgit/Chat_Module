@@ -1,9 +1,20 @@
 
 const Message = require('../models/Message');
+const User = require('../models/User');
 
 // Send message with ID
 async function sendMessage(remit,recep,messageText) {
 
+    //Check if block
+    const [blockRemit , blockRecep] = await Promise.all([
+        User.findById(remit).select('blockedUsers'),
+        User.findById(recep).select('blockedUsers'),
+    ]);
+
+    if(blockRemit.blockedUsers.includes(recep) || blockRecep.blockedUsers.includes(remit))
+        throw new Error ('ERROR : can not send message to that user');
+
+    //Send message
     const messageObjt = {remit,recep,messageText}
 
     try{

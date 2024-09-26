@@ -32,8 +32,8 @@ async function getBloquedUser(userId) {
         return user.blockedUsers;
 
     }catch (err){
-        console.error('DB-UNBLOCK USERS ERROR : ',err);
-        throw new Error ('ERROR : can not unblock that user');
+        console.error('DB-GET BLOCK USERS ERROR : ',err);
+        throw new Error ('ERROR : can get blocked users');
     }
 }
 
