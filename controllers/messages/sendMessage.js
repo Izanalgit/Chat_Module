@@ -39,7 +39,7 @@ module.exports = async (req,res) => {
             //Message sended 
             return res
                 .status(200)
-                .json({message:"Message properly sended"});
+                .json({message:"Message properly sent"});
         else 
             //Null result on DB
             return res

@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
 
-const messageValidations = [
+const messageValidation = [
 	body('payload.recep')
         .trim()
         .notEmpty()
@@ -13,4 +13,4 @@ const messageValidations = [
         .withMessage('Se requiere de un cuerpo de mensaje')
 ]
 
-module.exports = { messageValidations }
+module.exports = { messageValidation }
