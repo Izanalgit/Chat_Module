@@ -1,6 +1,7 @@
 const User = require('../models/User');
 
-async function addBloquedUser (userId, blockUserId){
+//Add user to blocked list
+async function addBlockedUser (userId, blockUserId){
     try{
         await User.findByIdAndUpdate(userId,{
             $addToSet: {blockedUsers : blockUserId}
@@ -11,7 +12,8 @@ async function addBloquedUser (userId, blockUserId){
     }
 }
 
-async function removeBloquedUser (userId, blockUserId) {
+//Remove a blocked user from blocked list
+async function removeBlockedUser (userId, blockUserId) {
     try{
         await User.findByIdAndUpdate(userId,{
             $pull: {blockedUsers : blockUserId}
@@ -22,7 +24,8 @@ async function removeBloquedUser (userId, blockUserId) {
     }
 }
 
-async function getBloquedUser(userId) {
+//Get blocked users by user id
+async function getBlockedUser(userId) {
     try{
 
         const user = await User.findById(userId)
@@ -38,7 +41,7 @@ async function getBloquedUser(userId) {
 }
 
 module.exports = {
-    addBloquedUser,
-    removeBloquedUser,
-    getBloquedUser
+    addBlockedUser,
+    removeBlockedUser,
+    getBlockedUser
 }
