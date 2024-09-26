@@ -30,6 +30,10 @@ messageSchema.pre('save', function(next) {
 
   const {encryptedData, iv} = encryptText(message.messageText);
 
+  if (!iv) {
+    return next(new Error('IV generation failed'));
+  }
+
   message.messageText = encryptedData;
   message.iv = iv;
 

@@ -1,10 +1,7 @@
 const crypto = require('crypto');
 
-// require('dotenv').config;
-
 const algorithm = 'aes-256-cbc';
-// const key = Buffer.from(process.env.SECRET_KEY, 'hex');
-const key = crypto.randomBytes(32);
+const key = Buffer.from(process.env.KEY_SECRET, 'hex');
 
 //Encrypter
 function encryptText(data){

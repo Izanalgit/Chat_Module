@@ -2,13 +2,9 @@ const jwt = require ('jsonwebtoken');
 const {dbFindUserId} = require('./../services/userServices');
 const {findToken} = require('./../services/tokenServices');
 
-require('dotenv').config;
-
 //Secret
 const hashSc = process.env.JWT_SECRECT;
 
-
-//Middlewares
 
 //Request Token
 async function verifyToken(req,res,next){

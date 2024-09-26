@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
 
 const DB = process.env.MONGO_BBDD || 'chat-module';
 const URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/';
