@@ -13,7 +13,11 @@ const userSchema = new mongoose.Schema({
   pswd: {
     type: String,
     required: true,
-  }
+  },
+  blockedUsers:[{
+    type : mongoose.ObjectId,
+    ref: 'User'
+  }]
 });
 
 const User = mongoose.model('User', userSchema);
