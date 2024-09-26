@@ -1,4 +1,5 @@
 const {dbCreateUser} = require('../../services/userServices');
+const {passHasher} = require('../../utils/passwordHasher');
 const {msgErr} = require('../../utils/errorsMessages');
 
 module.exports =async (req,res)=>{
@@ -28,7 +29,8 @@ module.exports =async (req,res)=>{
     
     //Create new user
     try{
-        newUser = await dbCreateUser({name,email,pswd}) //catch errors from db and send to client??
+        const hashedPaswd = await passHasher(pswd); //hash user password
+        newUser = await dbCreateUser({name,email,pswd:hashedPaswd}) //catch errors from db and send to client??
     }catch(err){
         return res
             .status(401)

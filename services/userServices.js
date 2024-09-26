@@ -1,3 +1,4 @@
+const {passCompare} = require('../utils/passwordHasher');
 const User = require('../models/User');
 
 //Create
@@ -47,8 +48,12 @@ async function dbFindUser(userEmail){
 //Find by login
 async function dbFindUserLogIn(userEmail,password){
     try{
-        const user = await User.findOne({email:userEmail,pswd:password});
-        return user;
+        const user = await User.findOne({email:userEmail});
+        const comparePswd = await passCompare(password, user.pswd);
+
+        if(comparePswd)
+            return user;
+        
     }catch (err){
         console.error('DB-FIND USER BY LOGIN ERROR : ',err);
         throw new Error ('ERROR : can not find that user');
