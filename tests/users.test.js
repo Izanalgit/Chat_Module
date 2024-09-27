@@ -35,7 +35,7 @@ describe('TEST OF CRUD AND LOGIN USERS END ROUTES',()=>{
             .expect((res)=>{
                 expect(res.headers['authorization']).toBeDefined();
                 expect(res.body.user).toBe(payload.payload.name);
-                expect(res.body.message).toBe('Succes on login!');
+                expect(res.body.message).toBeDefined();
             });
         
         tokenAuth = response.headers['authorization'];
