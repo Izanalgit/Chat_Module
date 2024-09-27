@@ -4,7 +4,7 @@
   "description": "Express API Chat module running with Mongose.",
   "main": "index.js",
   "scripts": {
-    "test": "jest --silent --verbose",
+    "test": "jest --silent --verbose --maxWorkers=1",
     "test:watch": "jest --watchALL"
   },
   "keywords": [],
