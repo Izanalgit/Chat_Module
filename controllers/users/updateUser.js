@@ -29,7 +29,7 @@ module.exports = async (req,res) => {
         //Correct result send 
         return res
             .status(200)
-            .json(updtUser);
+            .json({name:updtUser.name,email:updtUser.email});
     else 
         //Null result on DB
         return res

@@ -25,6 +25,10 @@ app.get('/',(req,res)=>res.status(200).send('API IS RUNNING HEALTHY'));
 //API ROUTES
 app.use('/api',require('./routes'));
 
-app.listen(PORT, () => {
+//API LISTEN
+const server = app.listen(PORT, () => {
     console.log(`Server on http://${HOST}:${PORT}`);
 })
+
+//TESTS EXPORTS
+module.exports = {app,server};

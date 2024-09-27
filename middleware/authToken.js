@@ -3,7 +3,7 @@ const {dbFindUserId} = require('./../services/userServices');
 const {findToken} = require('./../services/tokenServices');
 
 //Secret
-const hashSc = process.env.JWT_SECRECT;
+const hashSc = process.env.JWT_SECRET;
 
 
 //Request Token

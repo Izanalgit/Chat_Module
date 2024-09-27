@@ -30,7 +30,7 @@ module.exports =async (req,res)=>{
     //Create new user
     try{
         const hashedPaswd = await passHasher(pswd); //hash user password
-        newUser = await dbCreateUser({name,email,pswd:hashedPaswd}) //catch errors from db and send to client??
+        newUser = await dbCreateUser({name,email,pswd:hashedPaswd})
     }catch(err){
         return res
             .status(401)
@@ -43,9 +43,9 @@ module.exports =async (req,res)=>{
             .status(500)
             .json({messageErr:msgErr.errApiInternal});
 
-    //Log and response
+    //Response
     res
         .status(201)
-        .json(newUser);
+        .json({name:newUser.name,email:newUser.email});
 
 }
